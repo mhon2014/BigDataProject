@@ -4,8 +4,9 @@
 .ipynb_checkpoints
 .ipynb_checkpoints/*
 
-groundtruth
+groundtruth*
 groundtruth.tar.bz2
+groundtruth/*
 
 sample
 sample/*
