@@ -9,9 +9,9 @@ import {Map} from 'react-map-gl';
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
-  longitude: -122.41669,
-  latitude: 37.7853,
-  zoom: 13,
+  longitude: 0,
+  latitude: 0,
+  zoom: 0.75,
   pitch: 0,
   bearing: 0
 };
