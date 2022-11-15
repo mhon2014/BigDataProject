@@ -3,39 +3,80 @@ import './App.css';
 
 import React from 'react';
 import DeckGL from 'deck.gl';
-import {LineLayer} from 'deck.gl';
+import {LineLayer, ScatterplotLayer} from 'deck.gl';
 import {Map} from 'react-map-gl';
 
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
-  longitude: 0,
-  latitude: 0,
-  zoom: 0.75,
+  longitude: -122.466233,
+
+  // longitude: 0,
+  latitude: 37.684638,
+  // latitude: 0,
+  zoom: 10,
   pitch: 0,
   bearing: 0
 };
 
 // Data to be used by the LineLayer
 const data = [
-  {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
+  // {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
+  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [-122.466233, 37.684638]},
+
 ];
 
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWhvbjIwMTQiLCJhIjoiY2xhYjg0Y2p1MDY4NTNubW9wdzhqcnhvbyJ9.5zb8vso9uc_RBovpalCDNA';
-const MAP_STYLE = 'mapbox://styles/mhon2014/clabk1xb8000l14p53vxq1h56';
+const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAP_STYLE = 'mapbox://styles/mapbox/light-v9';
 
-function App({data}) {
-  const layers = [
-    new LineLayer({id: 'line-layer', data})
-  ];
+function App() {
+  console.log(MAPBOX_ACCESS_TOKEN)
+
+  // const layers = [
+  //   new LineLayer({id: 'line-layer', data})
+  // ];
+
+
+  // const layer = [
+  //   new ScatterplotLayer({
+  //     id: 'scatterplot',
+  //     data, // load data from server
+  //     getPosition: d => d.coordinates,
+  //     // getColor: d => color[d.type],
+  //     getRadius: 25,
+  //     opacity: 0.9,
+  //     pickable: false,
+  //     radiusMinPixels: 0.25,
+  //     radiusMaxPixels: 30,
+  //   }),
+  // ];
+
+  const layer = new ScatterplotLayer({
+    id: 'scatterplot-layer',
+    data,
+    pickable: true,
+    opacity: 0.8,
+    stroked: true,
+    filled: true,
+    radiusScale: 6,
+    radiusMinPixels: 1,
+    radiusMaxPixels: 100,
+    lineWidthMinPixels: 1,
+    getPosition: d => d.coordinates,
+    getRadius: d => Math.sqrt(d.exits),
+    getFillColor: d => [255, 140, 0],
+    getLineColor: d => [0, 0, 0]
+  });
 
   return (
     <DeckGL
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
-      layers={layers}
+      layers={layer}
+      // getTooltip={({object}) => object && `${object.name}\n${object.address}`}
     >
-      <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+    {/* <ScatterplotLayer id="scatter-layer" data={data} /> */}
+    <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
   );
 
