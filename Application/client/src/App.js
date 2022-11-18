@@ -1,10 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 
-import React from 'react';
+import axios from 'axios';
+import {React, useState} from 'react';
 import DeckGL from 'deck.gl';
 import {LineLayer, ScatterplotLayer} from 'deck.gl';
 import {Map} from 'react-map-gl';
+
+// https://ckochis.com/deck-gl-layers
 
 
 // Viewport settings
@@ -14,61 +17,67 @@ const INITIAL_VIEW_STATE = {
   // longitude: 0,
   latitude: 37.684638,
   // latitude: 0,
-  zoom: 10,
+  zoom: 0.75,
   pitch: 0,
   bearing: 0
 };
 
-// Data to be used by the LineLayer
+// Data to be used by the layer
 const data = [
   // {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
   {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [-122.466233, 37.684638]},
+  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [-100.466233, 40.684638]},
+  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [0.466233, 20.684638]},
+  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [10.466233, 60.684638]},
 
 ];
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
-const MAP_STYLE = 'mapbox://styles/mapbox/light-v9';
+const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
 function App() {
-  console.log(MAPBOX_ACCESS_TOKEN)
+
+  const [PopUp, setPopUp] = useState();
+
+  // React.useEffect(() => {
+  //   axios.get('/data.json')
+  //        .then((response) => console.log(response));
+  // }, [])
 
   // const layers = [
   //   new LineLayer({id: 'line-layer', data})
   // ];
 
 
-  // const layer = [
-  //   new ScatterplotLayer({
-  //     id: 'scatterplot',
-  //     data, // load data from server
-  //     getPosition: d => d.coordinates,
-  //     // getColor: d => color[d.type],
-  //     getRadius: 25,
-  //     opacity: 0.9,
-  //     pickable: false,
-  //     radiusMinPixels: 0.25,
-  //     radiusMaxPixels: 30,
-  //   }),
-  // ];
+
+  const onClick = info => {
+    if(info.object) {
+      setPopUp(info.object)
+      console.log(PopUp)
+      // alert(info.object.name)
+    }
+  }
 
   const layer = new ScatterplotLayer({
     id: 'scatterplot-layer',
     data,
     pickable: true,
-    opacity: 0.8,
-    stroked: true,
+    // opacity: 0.8,
+    // stroked: true,
     filled: true,
-    radiusScale: 6,
+    radiusScale: 1,
     radiusMinPixels: 1,
     radiusMaxPixels: 100,
     lineWidthMinPixels: 1,
     getPosition: d => d.coordinates,
     getRadius: d => Math.sqrt(d.exits),
-    getFillColor: d => [255, 140, 0],
-    getLineColor: d => [0, 0, 0]
+    getFillColor: d => [255, 0, 0],
+    getLineColor: d => [255, 0, 0],
+    onClick
   });
 
   return (
+    <div className='MainScreen'>
     <DeckGL
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
@@ -78,6 +87,10 @@ function App() {
     {/* <ScatterplotLayer id="scatter-layer" data={data} /> */}
     <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
+    <div className='popup'>
+    test
+    </div>
+    </div>
   );
 
   // return (

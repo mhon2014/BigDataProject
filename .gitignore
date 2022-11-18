@@ -8,5 +8,9 @@ groundtruth*
 groundtruth.tar.bz2
 groundtruth/*
 
+AdditionalProcessing*
+
+data*
+
 sample
 sample/*
