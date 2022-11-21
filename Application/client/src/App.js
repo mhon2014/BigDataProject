@@ -1,8 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import { Context } from './Context';
 
 import axios from 'axios';
-import {React, useState} from 'react';
+import {React, useState, useContext} from 'react';
+import SideBar from './SideBar';
 import DeckGL from 'deck.gl';
 import {LineLayer, ScatterplotLayer} from 'deck.gl';
 import {Map} from 'react-map-gl';
@@ -37,7 +39,8 @@ const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
 function App() {
 
-  const [PopUp, setPopUp] = useState();
+  const [Toggle, setToggle] = useState(false);
+  const [LocationInfo, setLocationInfo] = useState();
 
   // React.useEffect(() => {
   //   axios.get('/data.json')
@@ -48,12 +51,20 @@ function App() {
   //   new LineLayer({id: 'line-layer', data})
   // ];
 
+  // let cursor;
+  // const hoverEnterHandler = () => {
+  //     cursor = "pointer";
+  // };
+  // const hoverExitHandler = () => {
+  //   cursor = "grab";
+  // };
 
 
   const onClick = info => {
     if(info.object) {
-      setPopUp(info.object)
-      console.log(PopUp)
+      setToggle(!Toggle)
+      setLocationInfo(info.object)
+      console.log(LocationInfo)
       // alert(info.object.name)
     }
   }
@@ -77,40 +88,24 @@ function App() {
   });
 
   return (
+    <Context.Provider value={{Toggle, setToggle}}>
     <div className='MainScreen'>
     <DeckGL
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
       layers={layer}
+      getCursor= {() => 'pointer'}
+      doubleClickZoom = 'false'
+
       // getTooltip={({object}) => object && `${object.name}\n${object.address}`}
     >
     {/* <ScatterplotLayer id="scatter-layer" data={data} /> */}
-    <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+    <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN}/>
     </DeckGL>
-    <div className='popup'>
-    test
+    <SideBar ToggleState={Toggle}></SideBar>
     </div>
-    </div>
+    </Context.Provider>
   );
-
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
 }
 
 export default App;
