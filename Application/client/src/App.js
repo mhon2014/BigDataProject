@@ -1,9 +1,10 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import { Context } from './Context';
+import {Context}  from './Context';
+import ScatterPlotLayer from './layers/ScatterPlotLayer';
 
 import axios from 'axios';
-import {React, useState, useContext} from 'react';
+import {React, useState} from 'react';
 import SideBar from './SideBar';
 import DeckGL from 'deck.gl';
 import {LineLayer, ScatterplotLayer} from 'deck.gl';
@@ -42,14 +43,16 @@ function App() {
   const [Toggle, setToggle] = useState(false);
   const [LocationInfo, setLocationInfo] = useState();
 
+  const contextStates = {
+    INITIAL_VIEW_STATE,
+    MAPBOX_ACCESS_TOKEN,
+    MAP_STYLE,
+  }
+
   // React.useEffect(() => {
   //   axios.get('/data.json')
   //        .then((response) => console.log(response));
   // }, [])
-
-  // const layers = [
-  //   new LineLayer({id: 'line-layer', data})
-  // ];
 
   // let cursor;
   // const hoverEnterHandler = () => {
@@ -59,50 +62,21 @@ function App() {
   //   cursor = "grab";
   // };
 
-
-  const onClick = info => {
-    if(info.object) {
-      setToggle(!Toggle)
-      setLocationInfo(info.object)
-      console.log(LocationInfo)
-      // alert(info.object.name)
-    }
-  }
-
-  const layer = new ScatterplotLayer({
-    id: 'scatterplot-layer',
-    data,
-    pickable: true,
-    // opacity: 0.8,
-    // stroked: true,
-    filled: true,
-    radiusScale: 1,
-    radiusMinPixels: 1,
-    radiusMaxPixels: 100,
-    lineWidthMinPixels: 1,
-    getPosition: d => d.coordinates,
-    getRadius: d => Math.sqrt(d.exits),
-    getFillColor: d => [255, 0, 0],
-    getLineColor: d => [255, 0, 0],
-    onClick
-  });
+  // const onClick = info => {
+  //   if(info.object) {
+  //     setToggle(true)
+  //     //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
+  //     setLocationInfo(info.object)
+  //     console.log(LocationInfo)
+  //     // alert(info.object.name)
+  //   }
+  // }
 
   return (
-    <Context.Provider value={{Toggle, setToggle}}>
+    <Context.Provider value={{Toggle, setToggle, LocationInfo, setLocationInfo, contextStates}}>
     <div className='MainScreen'>
-    <DeckGL
-      initialViewState={INITIAL_VIEW_STATE}
-      controller={true}
-      layers={layer}
-      getCursor= {() => 'pointer'}
-      doubleClickZoom = 'false'
-
-      // getTooltip={({object}) => object && `${object.name}\n${object.address}`}
-    >
-    {/* <ScatterplotLayer id="scatter-layer" data={data} /> */}
-    <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN}/>
-    </DeckGL>
-    <SideBar ToggleState={Toggle}></SideBar>
+    <ScatterPlotLayer></ScatterPlotLayer>
+    <SideBar></SideBar>
     </div>
     </Context.Provider>
   );
