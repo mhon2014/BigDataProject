@@ -38,7 +38,7 @@ const data = [
 ];
 
 
-export default function ScatterPlotLayer() {
+export default function Scatterplot() {
     const { Toggle, setToggle, LocationInfo, setLocationInfo, contextStates } = useContext(Context);
 
     const onClick = (info) => {
@@ -76,10 +76,7 @@ export default function ScatterPlotLayer() {
         layers={layer}
         getCursor={() => "pointer"}
         doubleClickZoom="false"
-
-        // getTooltip={({object}) => object && `${object.name}\n${object.address}`}
         >
-        {/* <ScatterplotLayer id="scatter-layer" data={data} /> */}
         <Map mapStyle={contextStates.MAP_STYLE} mapboxAccessToken={contextStates.MAPBOX_ACCESS_TOKEN} />
         </DeckGL>
     );

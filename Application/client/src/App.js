@@ -1,14 +1,13 @@
 // import logo from './logo.svg';
 import './App.css';
 import {Context}  from './Context';
-import ScatterPlotLayer from './layers/ScatterPlotLayer';
+
+import Scatterplot from './layers/Scatterplot';
+import Polygon from './layers/Polygon';
 
 import axios from 'axios';
 import {React, useState} from 'react';
 import SideBar from './SideBar';
-import DeckGL from 'deck.gl';
-import {LineLayer, ScatterplotLayer} from 'deck.gl';
-import {Map} from 'react-map-gl';
 
 // https://ckochis.com/deck-gl-layers
 
@@ -75,7 +74,8 @@ function App() {
   return (
     <Context.Provider value={{Toggle, setToggle, LocationInfo, setLocationInfo, contextStates}}>
     <div className='MainScreen'>
-    <ScatterPlotLayer></ScatterPlotLayer>
+    {/* <Scatterplot></Scatterplot> */}
+    <Polygon></Polygon>
     <SideBar></SideBar>
     </div>
     </Context.Provider>
