@@ -25,14 +25,6 @@ const INITIAL_VIEW_STATE = {
 };
 
 // Data to be used by the layer
-const data = [
-  // {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
-  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [-122.466233, 37.684638]},
-  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [-100.466233, 40.684638]},
-  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [0.466233, 20.684638]},
-  {name: 'Colma (COLM)', code:'CM', address: '365 D Street, Colma CA 94014', exits: 4214, coordinates: [10.466233, 60.684638]},
-
-];
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
@@ -74,8 +66,8 @@ function App() {
   return (
     <Context.Provider value={{Toggle, setToggle, LocationInfo, setLocationInfo, contextStates}}>
     <div className='MainScreen'>
-    {/* <Scatterplot></Scatterplot> */}
-    <Polygon></Polygon>
+    <Scatterplot></Scatterplot>
+    {/* <Polygon></Polygon> */}
     <SideBar></SideBar>
     </div>
     </Context.Provider>

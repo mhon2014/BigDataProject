@@ -5,46 +5,29 @@ import DeckGL from "deck.gl";
 import {ScatterplotLayer } from "deck.gl";
 import { Map } from "react-map-gl";
 
-const data = [
-  // {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
-  {
-    name: "Colma (COLM)",
-    code: "CM",
-    address: "365 D Street, Colma CA 94014",
-    exits: 4214,
-    coordinates: [-122.466233, 37.684638],
-  },
-  {
-    name: "Colma (COLM)",
-    code: "CM",
-    address: "365 D Street, Colma CA 94014",
-    exits: 4214,
-    coordinates: [-100.466233, 40.684638],
-  },
-  {
-    name: "Colma (COLM)",
-    code: "CM",
-    address: "365 D Street, Colma CA 94014",
-    exits: 4214,
-    coordinates: [0.466233, 20.684638],
-  },
-  {
-    name: "Colma (COLM)",
-    code: "CM",
-    address: "365 D Street, Colma CA 94014",
-    exits: 4214,
-    coordinates: [10.466233, 60.684638],
-  },
-];
+const file ="sampletestingdata.json";
 
 
 export default function Scatterplot() {
     const { Toggle, setToggle, LocationInfo, setLocationInfo, contextStates } = useContext(Context);
 
+    async function getlocaldata() {
+      // Use fetch API to get data
+      return await fetch(file)
+        .then((response) => response.json())
+        .then((results) => {return results})
+        .catch((error) => {
+          // setError(error);
+        });
+    }
+
+  const data = getlocaldata()
+
     const onClick = (info) => {
         if (info.object) {
         setToggle(true);
         //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
+        //query data
         setLocationInfo(info.object);
         console.log(LocationInfo);
         // alert(info.object.name)
@@ -58,9 +41,9 @@ export default function Scatterplot() {
         // opacity: 0.8,
         // stroked: true,
         filled: true,
-        radiusScale: 1,
-        radiusMinPixels: 10,
-        radiusMaxPixels: 10,
+        radiusScale: 100,
+        radiusMinPixels: 1,
+        radiusMaxPixels: 100,
         lineWidthMinPixels: 1,
         getPosition: (d) => d.coordinates,
         // getRadius: d => Math.sqrt(),

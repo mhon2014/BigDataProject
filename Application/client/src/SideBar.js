@@ -21,6 +21,15 @@ export default function SideBar() {
     <animated.div className='sidebar' style={translate}>
     <button name='close' onClick={close} >X</button>
     <div>
+    {LocationInfo != null && <img
+    src={LocationInfo.image_url}
+              onError={(e) => (
+                (e.target.onerror = null),
+                (e.target.src = "")
+              )}
+              aria-label="image"
+            ></img>
+    }
     {/* <ul>{LocationInfo.name}</ul> */}
     </div>
     {console.log(Toggle)}

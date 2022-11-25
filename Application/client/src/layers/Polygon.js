@@ -4,48 +4,27 @@ import { Context } from "../Context";
 import DeckGL from "deck.gl";
 import {PolygonLayer } from "deck.gl";
 import { Map } from "react-map-gl";
+// import FullData from 'FullData.json';
 
 
-    const data = [
-    {
-    // Simple polygon (array of coords)
-    contour: [
-        [-122.4, 37.7],
-        [-122.4, 37.8],
-        [-122.5, 37.8],
-        [-122.5, 37.7],
-        [-122.4, 37.7],
-    ],
-    zipcode: 94107,
-    population: 26599,
-    area: 6.11,
-    },
-    {
-    // Complex polygon with holes (array of rings)
-    contour: [
-        [
-        [-122.4, 37.7],
-        [-122.4, 37.8],
-        [-122.5, 37.8],
-        [-122.5, 37.7],
-        [-122.4, 37.7],
-        ],
-        [
-        [-122.45, 37.73],
-        [-122.47, 37.76],
-        [-122.47, 37.71],
-        [-122.45, 37.73],
-        ],
-    ],
-    zipcode: 94107,
-    population: 26599,
-    area: 6.11,
-    },
-];
+const file ="sampletestingdata.json";
 
 export default function Polygon() {
 
     const { Toggle, setToggle, LocationInfo, setLocationInfo, contextStates } = useContext(Context);
+
+    async function getlocaldata() {
+        // Use fetch API to get data
+        return await fetch(file)
+          .then((response) => response.json())
+          .then((results) => {return results})
+          .catch((error) => {
+            // setError(error);
+          });
+      }
+
+    const data = getlocaldata()
+    
 
     const onClick = (info) => {
         if (info.object) {
@@ -65,7 +44,7 @@ export default function Polygon() {
         filled: true,
         wireframe: true,
         lineWidthMinPixels: 1,
-        getPolygon: (d) => d.contour,
+        getPolygon: (d) => d.geometry.coordinates,
         getElevation: (d) => d.population / d.area / 10,
         getFillColor: (d) => [d.population / d.area / 60, 140, 0],
         getLineColor: [80, 80, 80],
