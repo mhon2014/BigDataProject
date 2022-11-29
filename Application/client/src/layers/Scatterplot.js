@@ -5,7 +5,7 @@ import DeckGL from "deck.gl";
 import {ScatterplotLayer } from "deck.gl";
 import { Map } from "react-map-gl";
 
-const file ="sampletestingdata.json";
+const file ="FullDataReformatted.json";
 
 
 export default function Scatterplot() {
