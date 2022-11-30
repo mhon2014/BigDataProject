@@ -1,15 +1,19 @@
-import './Sidebar.css';
 import { Context } from './Context';
-import {useSpring, animated} from 'react-spring'
+
+import './Sidebar.css';
 
 import {useContext} from "react";
+import {useSpring, animated} from 'react-spring'
 // ${ToggleState?'sidebarActive':null}`
 
 export default function SideBar() {
-    const {Toggle, setToggle, LocationInfo, setLocationInfo, contextStates} = useContext(Context);
+  const {tgl, location, categories, contextStates} = useContext(Context);
+  const [toggle, setToggle] = tgl;
+  const [locationInfo, setLocationInfo] = location;
+  const [category, setCategory] = categories
 
     const translate = useSpring({
-        transform: Toggle ? `translateX(0%)` : `translateX(100%)`
+        transform: toggle ? `translateX(0%)` : `translateX(100%)`
         // transition: 'background 0.1s'
     });
 
@@ -21,8 +25,8 @@ export default function SideBar() {
     <animated.div className='sidebar' style={translate}>
     <button name='close' onClick={close} >X</button>
     <div>
-    {LocationInfo != null && <img
-    src={LocationInfo.image_url}
+    {locationInfo != null && <img
+    src={locationInfo.image_url}
               onError={(e) => (
                 (e.target.onerror = null),
                 (e.target.src = "")
@@ -32,8 +36,6 @@ export default function SideBar() {
     }
     {/* <ul>{LocationInfo.name}</ul> */}
     </div>
-    {console.log(Toggle)}
-    
     </animated.div>
   );
 }

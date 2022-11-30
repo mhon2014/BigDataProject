@@ -10,8 +10,10 @@ import { Map } from "react-map-gl";
 const file ="sampletestingdata.json";
 
 export default function Polygon() {
-
-    const { Toggle, setToggle, LocationInfo, setLocationInfo, contextStates } = useContext(Context);
+  const {tgl, location, categories, contextStates} = useContext(Context);
+  const [toggle, setToggle] = tgl;
+  const [locationInfo, setLocationInfo] = location;
+  const [category, setCategory] = categories
 
     async function getlocaldata() {
         // Use fetch API to get data
@@ -31,7 +33,7 @@ export default function Polygon() {
         setToggle(true);
         //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
         setLocationInfo(info.object);
-        console.log(LocationInfo);
+        console.log(locationInfo);
         // alert(info.object.name)
         }
     };
