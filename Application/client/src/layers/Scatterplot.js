@@ -30,7 +30,8 @@ export default function Scatterplot() {
         //query data
         setLocationInfo(info.object);
         console.log(LocationInfo);
-        // alert(info.object.name)
+        console.log(info.object)
+        alert(info)
         }
     };
 
