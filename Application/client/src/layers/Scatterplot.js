@@ -61,13 +61,13 @@ export default function Scatterplot() {
   }, [] );
 
 
-  const buildUrl = () => {
-    const num = (locationInfo.img_filename.match(/\d+/g) || []).map(n => parseInt(n))
-    const category = locationInfo.category
-    const set = locationInfo.set
+  const buildUrl = (object) => {
+    const num = (object.img_filename.match(/\d+/g) || []).map(n => parseInt(n))
+    const category = object.category
+    const set = object.set
     
     const image_url = img_url_prefix + set + '/' + category + '/' + category + '_' + num[0] + '/' + category + '_' + num[0] + '_' + num[1] + '_msrgb.jpg' 
-    console.log(image_url)
+    // console.log(image_url)
     return image_url
 
 }
@@ -78,7 +78,7 @@ export default function Scatterplot() {
       setToggle(true);
       //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
       //query data
-      setLocationInfo({...info.object, image_url:buildUrl()});
+      setLocationInfo({...info.object, image_url:buildUrl(info.object)});
       console.log(locationInfo);
       // alert(info.object.name)
     }
