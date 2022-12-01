@@ -8,7 +8,6 @@ import Polygon from './layers/Polygon';
 
 import './App.css';
 
-import axios from 'axios';
 import {React, useState} from 'react';
 
 // https://ckochis.com/deck-gl-layers

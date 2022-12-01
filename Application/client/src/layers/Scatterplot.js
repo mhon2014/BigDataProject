@@ -4,10 +4,21 @@ import React, {useContext, useEffect} from "react";
 import {DeckGL, ScatterplotLayer} from "deck.gl";
 import {Map} from "react-map-gl";
 
-const file ="FilteringData.json";
+const file ="data.json";
+
+const img_url_prefix = 'https://spacenet-dataset.s3.amazonaws.com/Hosted-Datasets/fmow/fmow-rgb/'
+
 
 export default function Scatterplot() {
-  const {setToggle, locationInfo, setLocationInfo, setCategories, contextStates, setSelectFilter, setAllPoints, data, setData} = useContext(Context);
+  const {setToggle,
+     locationInfo, 
+     setLocationInfo, 
+     setCategories, 
+     contextStates, 
+     setSelectFilter, 
+     setAllPoints, 
+     data, 
+     setData} = useContext(Context);
 
   useEffect(() => {
     async function getLocalData() {
@@ -50,12 +61,24 @@ export default function Scatterplot() {
   }, [] );
 
 
+  const buildUrl = () => {
+    const num = (locationInfo.img_filename.match(/\d+/g) || []).map(n => parseInt(n))
+    const category = locationInfo.category
+    const set = locationInfo.set
+    
+    const image_url = img_url_prefix + set + '/' + category + '/' + category + '_' + num[0] + '/' + category + '_' + num[0] + '_' + num[1] + '_msrgb.jpg' 
+    console.log(image_url)
+    return image_url
+
+}
+
+
   const onClick = (info) => {
     if (info.object) {
       setToggle(true);
       //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
       //query data
-      setLocationInfo(info.object);
+      setLocationInfo({...info.object, image_url:buildUrl()});
       console.log(locationInfo);
       // alert(info.object.name)
     }
@@ -86,6 +109,8 @@ export default function Scatterplot() {
       layers={layer}
       getCursor={() => "pointer"}
       doubleClickZoom="false"
+
+      
     >
       <Map mapStyle={contextStates.MAP_STYLE} mapboxAccessToken={contextStates.MAPBOX_ACCESS_TOKEN} />
     </DeckGL>

@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import { React, useContext, useEffect } from "react";
 import { Context } from "../Context";
 
 import DeckGL from "deck.gl";
@@ -10,23 +10,48 @@ import { Map } from "react-map-gl";
 const file ="sampletestingdata.json";
 
 export default function Polygon() {
-  const {tgl, location, categories, contextStates} = useContext(Context);
-  const [toggle, setToggle] = tgl;
-  const [locationInfo, setLocationInfo] = location;
-  const [category, setCategory] = categories
+    const {setToggle, locationInfo, setLocationInfo, setCategories, contextStates, setSelectFilter, setAllPoints, data, setData} = useContext(Context);
 
-    async function getlocaldata() {
-        // Use fetch API to get data
-        return await fetch(file)
-          .then((response) => response.json())
-          .then((results) => {return results})
-          .catch((error) => {
-            // setError(error);
-          });
-      }
-
-    const data = getlocaldata()
+    useEffect(() => {
+        async function getLocalData() {
+          try {
+            // Use fetch API to get data
+            const response = await fetch(file);
+            const result = await response.json();
+            setAllPoints(result);
+            setData(result);
     
+            // Get distinct category names
+            const distinctList = [...new Set(result.map(cat => cat.category))];
+            let options = distinctList.map((cat) => ({
+              value:cat, label:cat.replace(/_/g, " ").replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
+            }))
+    
+            // sort categories alphabetically
+            options.sort(function (a, b) {
+              if (a.label < b.label) {
+                return -1;
+              }
+              if (a.label > b.label) {
+                return 1;
+              }
+              return 0;
+            })
+    
+            // Contains all the categories
+            setCategories(options);
+    
+            // contains filtered categories
+            setSelectFilter(options);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+    
+        getLocalData().catch(console.error);
+        // eslint-disable-next-line
+      }, [] );
+
 
     const onClick = (info) => {
         if (info.object) {
