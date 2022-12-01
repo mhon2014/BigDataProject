@@ -1,21 +1,21 @@
 // import logo from './logo.svg';
-import './App.css';
 import {Context}  from './Context';
 
+import SideBar from './SideBar';
+import FilterBox from "./FilterBox";
 import Scatterplot from './layers/Scatterplot';
 import Polygon from './layers/Polygon';
 
+import './App.css';
+
 import axios from 'axios';
 import {React, useState} from 'react';
-import SideBar from './SideBar';
 
 // https://ckochis.com/deck-gl-layers
-
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
   longitude: -122.466233,
-
   // longitude: 0,
   latitude: 37.684638,
   // latitude: 0,
@@ -25,14 +25,16 @@ const INITIAL_VIEW_STATE = {
 };
 
 // Data to be used by the layer
-
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
 function App() {
-
-  const [Toggle, setToggle] = useState(false);
-  const [LocationInfo, setLocationInfo] = useState();
+  const [toggle, setToggle] = useState(false);
+  const [locationInfo, setLocationInfo] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectFilter, setSelectFilter] = useState([]);
+  const [allPoints, setAllPoints] = useState([]);
+  const [data, setData] = useState([]);
 
   const contextStates = {
     INITIAL_VIEW_STATE,
@@ -64,12 +66,19 @@ function App() {
   // }
 
   return (
-    <Context.Provider value={{Toggle, setToggle, LocationInfo, setLocationInfo, contextStates}}>
-    <div className='MainScreen'>
-    <Scatterplot></Scatterplot>
-    {/* <Polygon></Polygon> */}
-    <SideBar></SideBar>
-    </div>
+    <Context.Provider
+      value={{
+        toggle, setToggle, locationInfo, setLocationInfo, categories, setCategories,
+        selectFilter, setSelectFilter, allPoints, setAllPoints, data, setData,
+        contextStates
+      }}
+    >
+      <div className='MainScreen'>
+        <Scatterplot></Scatterplot>
+        <FilterBox></FilterBox>
+        {/* <Polygon></Polygon> */}
+        <SideBar></SideBar>
+      </div>
     </Context.Provider>
   );
 }
