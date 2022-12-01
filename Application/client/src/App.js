@@ -33,6 +33,8 @@ function App() {
   const [locationInfo, setLocationInfo] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectFilter, setSelectFilter] = useState([]);
+  const [allPoints, setAllPoints] = useState([]);
+  const [data, setData] = useState([]);
 
   const contextStates = {
     INITIAL_VIEW_STATE,
@@ -66,10 +68,8 @@ function App() {
   return (
     <Context.Provider
       value={{
-        tgl: [toggle, setToggle],
-        location: [locationInfo, setLocationInfo],
-        categories: [categories, setCategories],
-        filter: [selectFilter, setSelectFilter],
+        toggle, setToggle, locationInfo, setLocationInfo, categories, setCategories,
+        selectFilter, setSelectFilter, allPoints, setAllPoints, data, setData,
         contextStates
       }}
     >

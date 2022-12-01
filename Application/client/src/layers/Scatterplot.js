@@ -1,19 +1,13 @@
 import {Context} from "../Context";
 
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import {DeckGL, ScatterplotLayer} from "deck.gl";
 import {Map} from "react-map-gl";
 
 const file ="FilteringData.json";
 
 export default function Scatterplot() {
-  const {tgl, location, categories, contextStates, filter} = useContext(Context);
-  const [category, setCategory] = categories;
-  const [selectFilter, setSelectFilter] = filter;
-  const [locationInfo, setLocationInfo] = location;
-  const [toggle, setToggle] = tgl;
-  const [allPoints, setAllPoints] = useState([]);
-  const [data, setData] = useState([]);
+  const {setToggle, locationInfo, setLocationInfo, setCategories, contextStates, setSelectFilter, setAllPoints, data, setData} = useContext(Context);
 
   useEffect(() => {
     async function getLocalData() {
@@ -42,7 +36,7 @@ export default function Scatterplot() {
         })
 
         // Contains all the categories
-        setCategory(options);
+        setCategories(options);
 
         // contains filtered categories
         setSelectFilter(options);
@@ -52,32 +46,9 @@ export default function Scatterplot() {
     }
 
     getLocalData().catch(console.error);
-  }, []);
+    // eslint-disable-next-line
+  }, [] );
 
-  // Updates the map to show the filtered/unfiltered
-  useEffect(() => {
-    // No filter applied
-    if (selectFilter.length === 0) {
-      setData([]);
-    }
-    // All filters applied
-    else if (selectFilter.length === 62) {
-      setData(allPoints);
-    }
-    // Some filters applied
-    else {
-      // Extract the category names to match the json format
-      const currList = selectFilter.map(x => x.value);
-
-      // Filters for the given filter conditions
-      const result = allPoints.filter(function (point) {
-        return currList.includes(point.category);
-      });
-
-      // Update the new points
-      setData(result);
-    }
-  }, [selectFilter]);
 
   const onClick = (info) => {
     if (info.object) {

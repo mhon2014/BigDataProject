@@ -7,19 +7,16 @@ import {useSpring, animated} from 'react-spring'
 // ${ToggleState?'sidebarActive':null}`
 
 export default function SideBar() {
-  const {tgl, location, categories, contextStates} = useContext(Context);
-  const [toggle, setToggle] = tgl;
-  const [locationInfo, setLocationInfo] = location;
-  const [category, setCategory] = categories
+  const {toggle, setToggle, locationInfo} = useContext(Context);
 
-    const translate = useSpring({
-        transform: toggle ? `translateX(0%)` : `translateX(100%)`
-        // transition: 'background 0.1s'
-    });
+  const translate = useSpring({
+    transform: toggle ? `translateX(0%)` : `translateX(100%)`
+    // transition: 'background 0.1s'
+  });
 
-    const close = () => {
-        setToggle(false)
-    }
+  const close = () => {
+    setToggle(false)
+  }
     
   return (
     <animated.div className='sidebar' style={translate}>
