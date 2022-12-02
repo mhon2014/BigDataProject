@@ -7,7 +7,7 @@ This is a notebook with data pertaining to GDP and GDP Per Capita while comparin
 This notebook compares food production vs energy production in every country provided in the dataset. 
 ### EDA-air_quality_water_pollution
 This notebook provides some data and correlation on pollution based on certain institution in a country. 
-### recreational_v_obesity
+### EDA_recreational_v_obesity
 This notebook compares the number of recreational facilities in a country to it's obesity rate. 
 ### EDA-initial_cancer_and_air_quality
 This notebook correlates cancer data with air quality decreasing infrastructure in a country. 
