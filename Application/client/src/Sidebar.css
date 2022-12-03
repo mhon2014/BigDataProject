@@ -9,3 +9,12 @@
     background-color: transparent;
     background: rgba(255, 255, 255, 0.4);
 }
+
+#imageDiv {
+
+}
+
+#dataInfo{
+    list-style: none;
+    /* columns: unset; */
+}

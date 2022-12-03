@@ -66,20 +66,23 @@ export default function Scatterplot() {
     const category = object.category
     const set = object.set
     
-    const image_url = img_url_prefix + set + '/' + category + '/' + category + '_' + num[0] + '/' + category + '_' + num[0] + '_' + num[1] + '_msrgb.jpg' 
+    const url = img_url_prefix + set + '/' + category + '/' + category + '_' + num[0] + '/' + category + '_' + num[0] + '_' + num[1]
     // console.log(image_url)
-    return image_url
-
+    return url
 }
 
 
-  const onClick = (info) => {
+   async function onClick(info) {
     if (info.object) {
       setToggle(true);
       //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
       //query data
-      setLocationInfo({...info.object, image_url:buildUrl(info.object)});
-      console.log(locationInfo);
+      const response = await fetch(buildUrl);
+      const result = await response.json();
+      console.log(result);
+      
+      setLocationInfo({...result, image_url:buildUrl(info.object)});
+
       // alert(info.object.name)
     }
   };
@@ -107,7 +110,7 @@ export default function Scatterplot() {
       initialViewState={contextStates.INITIAL_VIEW_STATE}
       controller={true}
       layers={layer}
-      getCursor={() => "pointer"}
+      getCursor={() => "crosshair"}
       doubleClickZoom="false"
 
       

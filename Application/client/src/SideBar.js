@@ -22,16 +22,24 @@ export default function SideBar() {
     <animated.div className='sidebar' style={translate}>
     <button name='close' onClick={close} >X</button>
     <div>
-    {locationInfo != null && <img
-    src={locationInfo.image_url}
-              onError={(e) => (
-                (e.target.onerror = null)
-                (e.target.src = "")
-              )}
-              aria-label="image"
-            ></img>
-    }
-    {/* <ul>{LocationInfo.name}</ul> */}
+        <div id='imageDiv'>
+        {locationInfo != null && <img
+        src={locationInfo.image_url}
+                onError={(e) => (
+                    (e.target.onerror = null)
+                    (e.target.src = "")
+                )}
+                aria-label="image"
+                ></img>
+        }
+        {/* <ul>{LocationInfo.name}</ul> */}
+        </div>
+        <div id='dataInfo'>
+            {
+                Object.keys(locationInfo).map( 
+                    (key, value) => <li>{key}:{locationInfo[key]}</li> )
+            }
+        </div>
     </div>
     </animated.div>
   );
