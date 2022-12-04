@@ -131,11 +131,13 @@ export default function Scatterplot() {
       setToggle(true);
       //LEAVE TOGGLE AS TRUE AND CHANGE INFO FOR DISPLAY
       //query data
-      const response = await fetch(buildUrl);
+      const url = buildUrl(info.object) + '_rgb.json'
+      const image_url_link = buildUrl(info.object) + '_rgb.jpg'
+      const response = await fetch(url);
       const result = await response.json();
       console.log(result);
       
-      setLocationInfo({...result, image_url:buildUrl(info.object)});
+      setLocationInfo({...result, image_url:image_url_link});
 
       // alert(info.object.name)
     }

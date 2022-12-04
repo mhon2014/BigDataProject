@@ -18,6 +18,15 @@ export default function SideBar() {
         setToggle(false)
     }
     
+
+    const renderrecursive = (nested) => {
+        return nested.map((item) => (
+            <div>
+                {item.title}
+                {item.child && renderrecursive(item.child)}
+            </div>
+        ))
+      }
   return (
     <animated.div className='sidebar' style={translate}>
     <button name='close' onClick={close} >X</button>
@@ -36,8 +45,9 @@ export default function SideBar() {
         </div>
         <div id='dataInfo'>
             {
-                Object.keys(locationInfo).map( 
-                    (key, value) => <li>{key}:{locationInfo[key]}</li> )
+                
+                {/* Object.keys(locationInfo).map((key, index) => 
+                (<li key={key}>{key}:{locationInfo[key]}</li>) */}
             }
         </div>
     </div>
