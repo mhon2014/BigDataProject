@@ -31,7 +31,11 @@ function App() {
   const [toggle, setToggle] = useState(false);
   const [locationInfo, setLocationInfo] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectFilter, setSelectFilter] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [sensors, setSensors] = useState([]);
+  const [selectCategory, setSelectCategory] = useState([]);
+  const [selectCountry, setSelectCountry] = useState([]);
+  const [selectSensor, setSelectSensor] = useState([]);
   const [allPoints, setAllPoints] = useState([]);
   const [data, setData] = useState([]);
 
@@ -68,8 +72,9 @@ function App() {
     <Context.Provider
       value={{
         toggle, setToggle, locationInfo, setLocationInfo, categories, setCategories,
-        selectFilter, setSelectFilter, allPoints, setAllPoints, data, setData,
-        contextStates
+        selectCountry, setSelectCountry, allPoints, setAllPoints, data, setData,
+        sensors, setSensors, selectSensor, setSelectSensor,
+        selectCategory, setSelectCategory, countries, setCountries, contextStates
       }}
     >
       <div className='MainScreen'>

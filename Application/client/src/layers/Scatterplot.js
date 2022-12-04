@@ -8,17 +8,21 @@ const file ="data.json";
 
 const img_url_prefix = 'https://spacenet-dataset.s3.amazonaws.com/Hosted-Datasets/fmow/fmow-rgb/'
 
-
 export default function Scatterplot() {
   const {setToggle,
-     locationInfo, 
-     setLocationInfo, 
-     setCategories, 
-     contextStates, 
-     setSelectFilter, 
-     setAllPoints, 
-     data, 
-     setData} = useContext(Context);
+    locationInfo,
+    setLocationInfo,
+    setCategories,
+    setCountries,
+    setSensors,
+    contextStates,
+    setSelectCategory,
+    setSelectCountry,
+    setSelectSensor,
+    setAllPoints,
+    data,
+    setData
+  } = useContext(Context);
 
   useEffect(() => {
     async function getLocalData() {
@@ -26,17 +30,29 @@ export default function Scatterplot() {
         // Use fetch API to get data
         const response = await fetch(file);
         const result = await response.json();
+
+        // Fix country code
+        result.map((r) => {
+          if (r.country_code === 'CA-') {
+            r.country_code = 'RUS';
+          }
+          if (r.country_code === 'KO-') {
+            r.country_code = 'SRB';
+          }
+        });
         setAllPoints(result);
         setData(result);
 
         // Get distinct category names
-        const distinctList = [...new Set(result.map(cat => cat.category))];
-        let options = distinctList.map((cat) => ({
+        const distinctCategory = [...new Set(result.map(cat => cat.category))];
+
+        // Configure for dropdown menu
+        const option1 = distinctCategory.map((cat) => ({
           value:cat, label:cat.replace(/_/g, " ").replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
-        }))
+        }));
 
         // sort categories alphabetically
-        options.sort(function (a, b) {
+        option1.sort(function (a, b) {
           if (a.label < b.label) {
             return -1;
           }
@@ -44,13 +60,51 @@ export default function Scatterplot() {
             return 1;
           }
           return 0;
-        })
+        });
 
-        // Contains all the categories
-        setCategories(options);
+        // Function to convert iso3 to iso2 then iso2 to country name
+        const getCountryISO2 = require("country-iso-3-to-2");
+        const getCountryNames = new Intl.DisplayNames(['en'], {type: 'region'});
 
-        // contains filtered categories
-        setSelectFilter(options);
+        // Get country names
+        const distinctCountry = [...new Set(result.map(cat => cat.country_code))];
+
+        // Configure for dropdown menu
+        let option2 = distinctCountry.map((country) => ({
+          value:country, label: getCountryISO2(country)
+        }));
+
+        // Change label to country name
+        option2.map((iso2) => {
+          iso2.label = getCountryNames.of(iso2.label);
+        });
+
+        // Sorts alphabetically
+        option2.sort(function (a, b) {
+          if (a.label < b.label) {
+            return -1;
+          }
+          if (a.label > b.label) {
+            return 1;
+          }
+          return 0;
+        });
+
+        // Get sensor data
+        const distinctSensor = [...new Set(result.map(cat => cat.sensor_platform_name))];
+        const option3 = distinctSensor.map((sensor) => ({
+          value:sensor, label: sensor
+        }));
+
+        // Contains all the countries, categories, and sensors
+        setCategories(option1);
+        setCountries(option2);
+        setSensors(option3);
+
+        // contains filtered countries, categories, and sensors
+        setSelectCategory(option1);
+        setSelectCountry(option2);
+        setSelectSensor(option3);
       } catch (err) {
         console.log(err);
       }
@@ -112,8 +166,6 @@ export default function Scatterplot() {
       layers={layer}
       getCursor={() => "crosshair"}
       doubleClickZoom="false"
-
-      
     >
       <Map mapStyle={contextStates.MAP_STYLE} mapboxAccessToken={contextStates.MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
