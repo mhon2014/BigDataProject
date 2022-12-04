@@ -4,6 +4,8 @@
 .ipynb_checkpoints
 .ipynb_checkpoints/*
 
+.idea/*
+
 groundtruth*
 groundtruth.tar.bz2
 groundtruth/*
@@ -11,7 +13,7 @@ groundtruth/*
 AdditionalProcessing*
 
 FullData*
-data*
+FilteringData*
 sample*
 
 sample
