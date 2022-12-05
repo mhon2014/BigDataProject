@@ -32,7 +32,7 @@ export default function SideBar() {
       <button name="close" onClick={close}>
         X
       </button>
-      <div>
+      <div className="inner-sidebar">
         <div id="imageDiv">
           {locationInfo != null && (
             <img
@@ -46,14 +46,25 @@ export default function SideBar() {
         <div id="dataInfo">
           <table>
             {Object.keys(locationInfo).map((key, index) => (
-              <tr>
-                <td key={key}>
-                  <b>{key}:</b>
-                </td>
-                <td>{locationInfo[key]}</td>
-              </tr>
+             index < 6 ?
+              (
+                <tr>
+                  <td key={key}>
+                    <b>{key}:</b>
+                  </td>
+                  <td className="content">{locationInfo[key]}</td>
+                </tr>
+              ) : null
             ))}
           </table>
+          <p>
+            <b>coordinates:</b> <br/>
+            {locationInfo["coordinates"][0]}, {locationInfo["coordinates"][1]}
+          </p>
+          <p id="image-link">
+            <b>Image Url:</b> <br/>
+            {locationInfo["image_url"]}
+          </p>
         </div>
       </div>
     </animated.div>
