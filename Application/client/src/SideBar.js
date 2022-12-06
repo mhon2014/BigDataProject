@@ -47,13 +47,14 @@ export default function SideBar() {
           <table>
             {Object.keys(locationInfo).map((key, index) => (
              index < 6 ?
-              (
-                <tr>
-                  <td key={key}>
-                    <b>{key}:</b>
-                  </td>
-                  <td className="content">{locationInfo[key]}</td>
-                </tr>
+              (<tbody key={key}>
+                    <tr>
+                    <td >
+                        <b>{key}:</b>
+                    </td>
+                    <td className="content">{locationInfo[key]}</td>
+                    </tr>
+                </tbody>
               ) : null
             ))}
           </table>
@@ -63,7 +64,11 @@ export default function SideBar() {
           </p>
           <p id="image-link">
             <b>Image Url:</b> <br/>
-            {locationInfo["image_url"]}
+            <a href={locationInfo["image_url"]}>{locationInfo["image_url"]}</a>
+          </p>
+          <p id="url-link">
+            <b>JSON url:</b> <br/>
+            <a href={locationInfo["url"]} >{locationInfo["url"]}</a>
           </p>
         </div>
       </div>
