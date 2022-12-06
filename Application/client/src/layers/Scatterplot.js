@@ -4,6 +4,11 @@ import React, {useContext, useEffect} from "react";
 import {DeckGL, ScatterplotLayer} from "deck.gl";
 import {Map} from "react-map-gl";
 
+import mapboxgl from "mapbox-gl"; // This is a dependency of react-map-gl even if you didn't explicitly install it
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
 const file ="data.json";
 
 const img_url_prefix = 'https://spacenet-dataset.s3.amazonaws.com/Hosted-Datasets/fmow/fmow-rgb/'
