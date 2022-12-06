@@ -29,7 +29,7 @@ const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
 function App() {
   const [toggle, setToggle] = useState(false);
-  const [locationInfo, setLocationInfo] = useState([]);
+  const [locationInfo, setLocationInfo] = useState(null);
   const [categories, setCategories] = useState([]);
   const [countries, setCountries] = useState([]);
   const [sensors, setSensors] = useState([]);
@@ -81,7 +81,7 @@ function App() {
         <Scatterplot></Scatterplot>
         <FilterBox></FilterBox>
         {/* <Polygon></Polygon> */}
-        <SideBar></SideBar>
+        {locationInfo && <SideBar></SideBar>}
       </div>
     </Context.Provider>
   );
