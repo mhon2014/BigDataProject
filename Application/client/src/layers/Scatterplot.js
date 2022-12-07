@@ -3,6 +3,7 @@ import {Context} from "../Context";
 import React, {useContext, useEffect} from "react";
 import {DeckGL, ScatterplotLayer} from "deck.gl";
 import {Map} from "react-map-gl";
+import './Scatterplot.css'
 
 import mapboxgl from "mapbox-gl"; // This is a dependency of react-map-gl even if you didn't explicitly install it
 
