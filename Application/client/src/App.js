@@ -14,9 +14,9 @@ import {React, useState} from 'react';
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
-  longitude: -122.466233,
+  longitude: -30,
   // longitude: 0,
-  latitude: 37.684638,
+  latitude: 30,
   // latitude: 0,
   zoom: 0.75,
   pitch: 0,

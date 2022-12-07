@@ -10,8 +10,6 @@ groundtruth*
 groundtruth.tar.bz2
 groundtruth/*
 
-AdditionalProcessing*
-
 FullData*
 FilteringData*
 sample*
